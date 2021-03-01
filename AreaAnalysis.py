@@ -70,8 +70,9 @@ imshow(img5)
 
 
 # =============================================================================
-# grid separation: with tkinter
-# https://www.pythontutorial.net/tkinter/tkinter-grid/
+# grid separation: 
+# tkinter: https://www.pythontutorial.net/tkinter/tkinter-grid/
+# matplotlib.pyplot.grid: https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.grid.html
 # =============================================================================
 
 
