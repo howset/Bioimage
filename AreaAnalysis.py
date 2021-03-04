@@ -109,7 +109,49 @@ size of plant 1 = (130*288)/307200 = 0,12 cm² = 12 mm²
 #==============================================================================
 
 
+########################
+#####Howard's Notes#####
+########################
+from skimage.io import imread,imshow,imsave
 
+### Load image
+img1=imread("/home/howsetya/Documents/Bioimage/Dennis_GrowthRate/180810/180810_FL-1.tif",key=1) 
+imshow(img1)
+
+### Cut image
+img1.shape # image dimension is 640*480
+
+flo1 = img1[0:240,0:213] # [y-axis, x-axis]
+flo2 = img1[0:240,213:426]
+flo3 = img1[0:240,426:640]
+flo4 = img1[240:480,0:213]
+flo5 = img1[240:480,213:426]
+flo6 = img1[240:480,426:640]
+
+imshow(flo1)
+imshow(flo2)
+imshow(flo3)
+imshow(flo4)
+imshow(flo5)
+imshow(flo6)
+
+### make binary(black-white), not nocessary to make gray, because image is fluorescence.
+
+from skimage.filters import threshold_otsu
+flo1_bw = flo1 > threshold_otsu(flo1)
+imshow(flo1_bw)
+
+### sum up area
+flo1_bw.sum()
+
+### test panda to load list
+import pandas as pd
+Flodf = pd.read_csv ('/home/howsetya/Documents/Bioimage/Dennis_GrowthRate/List.csv')
+Flolist=Flodf.values.tolist() # dont know what this is
+
+### make list of files
+import glob
+files = glob.glob("/home/howsetya/Documents/Bioimage/Dennis_GrowthRate/180801/*.tif")
 
 
 
