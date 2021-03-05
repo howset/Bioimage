@@ -10,6 +10,10 @@ will load the images and then slice the images (according to the 6 boxes-grid).
 Then probably the binarization (turn them to black-white) and area calculation 
 can be done in another script.
 
+Still to do:
+    1. grid slicing
+    2. how to connect sliced flower images to the csv data
+
 """
 
 ### Set work directory. Change directory accordingly
@@ -67,6 +71,7 @@ def makedict (imagelist,imagenames):
     return(imgdict)
 
 file_image = makedict(imglist,imgnames)
+#imshow(file_image['180801_FL-1.tif']) # just testing
 
 ### Grid slicing (make 6 boxes out of an image)
 # file_image.keys() #get all keys
