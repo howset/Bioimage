@@ -4,6 +4,12 @@
 Created on Fri Mar  5 14:17:11 2021
 
 @author: howsetya
+
+The plan here is to run this whole script once for one directory. The script 
+will load the images and then slice the images (according to the 6 boxes-grid).
+Then probably the binarization (turn them to black-white) and area calculation 
+can be done in another script.
+
 """
 
 ### Set work directory. Change directory accordingly
