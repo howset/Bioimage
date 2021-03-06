@@ -5,8 +5,13 @@ Created on Fri Mar  5 14:17:11 2021
 
 @author: howsetya
 
-The plan here is to run this whole script once for one directory. The script 
-will load the images and then slice the images (according to the 6 boxes-grid).
+The plan here is to run this whole script once for one directory. This is 
+obviously not the best approach. But more refinement can be done as time 
+permits (and energy too).
+
+The script will load the images and then slice the images (according to the 
+6 boxes-grid). And then save it somehow in a usable format.
+
 Then probably the binarization (turn them to black-white) and area calculation 
 can be done in another script.
 
@@ -16,18 +21,18 @@ Still to do:
 
 """
 
-### Set work directory. Change directory accordingly
+### Set work directory. Change directory accordingly.
 
 import os
 os.chdir('/home/howsetya/workspace/Bioimage/')
 
-### Load image into filelist. Change directory accordingly
+### Load image into filelist. Change directory accordingly.
 
 import glob
-flist = glob.glob('Dennis_GrowthRate/180801/*.tif')
-flist.sort() # sort the list
+fList = glob.glob('Dennis_GrowthRate/180801/*.tif')
+fList.sort() # sort the list, not really necessary
 
-### Get only filename 
+### Get only filename.
 
 def splitname (filelist):
     '''Splits path and filename. Takes a list as input, outputs only the image
@@ -35,13 +40,16 @@ def splitname (filelist):
     namelist=[]
     for n in range(len(filelist)):
         x1 = filelist[n]
-        x2 = x1.split('/')
-        namelist.append(x2[2])
+        print(x1,type(x1))
+        x1 = x1.split(sep='/')
+        x1 = str(x1[2])
+        x1 = x1.split(sep='.')
+        namelist.append(x1[0])
     return(namelist)
 
-imgnames = splitname(flist)
+imgNames = splitname(fList)
 
-### Load the image
+### Load the image.
 
 from skimage.io import imread
 
@@ -53,15 +61,15 @@ def loadimage (imagenames,filelist):
         imlist.append(imread(filelist[n],key=1))
     return(imlist)
 
-imglist = loadimage(imgnames,flist)
+imgList = loadimage(imgNames,fList)
 
-### Show images on the list. Change index accordingly 
-### Not necessary, just to visualize things
+### Show images on the list. Change index accordingly .
+### Not necessary, just to visualize things.
 
 #from skimage.io import imshow
 #imshow(imglist[0])
 
-### Make a dictionary to connect image with the respective filename
+### Make a dictionary to connect image with the respective filename.
 
 def makedict (imagelist,imagenames):
     '''Make a dictionary with the images as values and the names as keys.'''
@@ -70,27 +78,38 @@ def makedict (imagelist,imagenames):
         imgdict.update({imagenames[n]:imagelist[n]})
     return(imgdict)
 
-file_image = makedict(imglist,imgnames)
+fileImage = makedict(imgList,imgNames)
 #imshow(file_image['180801_FL-1.tif']) # just testing
 
-### Grid slicing (make 6 boxes out of an image)
+### Grid slicing (make 6 boxes out of an image).
 # file_image.keys() #get all keys
 # list(file_image.keys())[0] #get the first key
 # list(file_image.values())[0] #get the first value
 
-def gridslice (imagedict):
-    flo = []
-    for n in range(len(imagedict)):
-        x = list(file_image.keys())[n]
-        flowers = file_image[x]
-        flo[1] = flowers[0:240,0:213]
-        flo[2] = flowers[0:240,213:426]
-        flo[3] = flowers[0:240,426:640]
-        flo[4] = flowers[240:480,0:213]
-        flo[5] = flowers[240:480,213:426]
-        flo[6] = flowers[240:480,426:640]
-        
-        
-        
-        
-        
+def gridslice (specificimage):
+    '''slice one image into six flowers'''
+    flo = {}
+    #x = list(file_image.keys())[n]
+    #flowers = file_image[x]
+    flowers = fileImage[specificimage]
+    flo['A-topleft'] = flowers[0:240,0:213] 
+    flo['B-topmid'] = flowers[0:240,213:426] 
+    flo['C-topright'] = flowers[0:240,426:640]
+    flo['D-botleft'] = flowers[240:480,0:213]
+    flo['E-botmid'] = flowers[240:480,213:426]
+    flo['F-botright'] = flowers[240:480,426:640]
+    return(flo)
+    
+#test = gridslice('180801_FL-1.tif')
+#imshow(test['botleft'])
+
+### Use the function gridslice to loop over the dictionary.
+### Yields in a dictionary containing the filenames, position of cut images, and the cut images.
+
+fname={}
+for n in range(len(fileImage)):
+    fname['{0}'.format(list(fileImage.keys())[n])] = gridslice(list(fileImage.keys())[n])
+    
+### Now how to connect to the csv data?
+import pandas as pd
+floLoc = pd.read_csv ('Dennis_GrowthRate/180801/180801.csv', sep=';',header = None)
