@@ -16,7 +16,7 @@ Then probably the binarization (turn them to black-white) and area calculation
 can be done in another script.
 
 Still to do:
-    1. grid slicing
+    1. grid slicing - done!
     2. how to connect sliced flower images to the csv data
 
 """
