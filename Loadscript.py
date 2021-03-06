@@ -40,9 +40,10 @@ def splitname (filelist):
     namelist=[]
     for n in range(len(filelist)):
         x1 = filelist[n]
-        print(x1,type(x1))
+        x1 = str(x1)
         x1 = x1.split(sep='/')
-        x1 = str(x1[2])
+        x1 = str(x1[-1])
+        print(x1,type(x1))
         x1 = x1.split(sep='.')
         namelist.append(x1[0])
     return(namelist)
@@ -67,7 +68,7 @@ imgList = loadimage(imgNames,fList)
 ### Not necessary, just to visualize things.
 
 #from skimage.io import imshow
-#imshow(imglist[0])
+#imshow(imgList[0])
 
 ### Make a dictionary to connect image with the respective filename.
 
@@ -79,7 +80,7 @@ def makedict (imagelist,imagenames):
     return(imgdict)
 
 fileImage = makedict(imgList,imgNames)
-#imshow(file_image['180801_FL-1.tif']) # just testing
+#imshow(fileImage['180801_FL-1']) # just testing
 
 ### Grid slicing (make 6 boxes out of an image).
 # file_image.keys() #get all keys
@@ -100,16 +101,27 @@ def gridslice (specificimage):
     flo['F-botright'] = flowers[240:480,426:640]
     return(flo)
     
-#test = gridslice('180801_FL-1.tif')
-#imshow(test['botleft'])
+#test = gridslice('180801_FL-1')
+#imshow(test['D-botleft'])
 
 ### Use the function gridslice to loop over the dictionary.
 ### Yields in a dictionary containing the filenames, position of cut images, and the cut images.
 
-fname={}
+fName={}
 for n in range(len(fileImage)):
-    fname['{0}'.format(list(fileImage.keys())[n])] = gridslice(list(fileImage.keys())[n])
+    fName['{0}'.format(list(fileImage.keys())[n])] = gridslice(list(fileImage.keys())[n])
     
+###############################################################################
 ### Now how to connect to the csv data?
+
 import pandas as pd
 floLoc = pd.read_csv ('Dennis_GrowthRate/180801/180801.csv', sep=';',header = None)
+floLoc.loc[0] # by row
+floLoc[0] # by column
+
+### Clean up the csv
+
+placeHolder = splitname(list(floLoc[0]))
+floLoc[0] = placeHolder
+
+### 
