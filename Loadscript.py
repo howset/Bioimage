@@ -26,6 +26,10 @@ Still to do:
 import os
 os.chdir('/home/howsetya/workspace/Bioimage/')
 
+###############################################################################
+### Deal with images ##########################################################
+###############################################################################
+
 ### Load image into filelist. Change directory accordingly.
 
 import glob
@@ -83,9 +87,9 @@ fileImage = makedict(imgList,imgNames)
 #imshow(fileImage['180801_FL-1']) # just testing
 
 ### Grid slicing (make 6 boxes out of an image).
-# file_image.keys() #get all keys
-# list(file_image.keys())[0] #get the first key
-# list(file_image.values())[0] #get the first value
+# fileImage.keys() #get all keys
+# list(fileImage.keys())[0] #get the first key
+# list(fileImage.values())[0] #get the first value
 
 def gridslice (specificimage):
     '''slice one image into six flowers'''
@@ -112,16 +116,26 @@ for n in range(len(fileImage)):
     fName['{0}'.format(list(fileImage.keys())[n])] = gridslice(list(fileImage.keys())[n])
     
 ###############################################################################
-### Now how to connect to the csv data?
+### Deal with csv #############################################################
+###############################################################################
+
+### Import csv data
 
 import pandas as pd
-floLoc = pd.read_csv ('Dennis_GrowthRate/180801/180801.csv', sep=';',header = None)
-floLoc.loc[0] # by row
-floLoc[0] # by column
+floLoc_df = pd.read_csv ('Dennis_GrowthRate/180801/180801.csv', sep=';',header = None)
+floLoc_df.loc[0] # by row
+floLoc_df[0] # by column
 
-### Clean up the csv
+### Clean up the df and convert to dict
 
-placeHolder = splitname(list(floLoc[0]))
-floLoc[0] = placeHolder
+placeHolder = splitname(list(floLoc_df[0]))
+floLoc_df[0] = placeHolder
+floLoc = floLoc_df.set_index(0).T.to_dict('list')
 
-### 
+###############################################################################
+### Connect images and csv ####################################################
+###############################################################################
+
+### Loop over fName and change the position key of every image with value from 
+### floLoc (how?)
+
