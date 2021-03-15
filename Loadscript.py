@@ -24,7 +24,7 @@ Still to do:
 ### Set work directory. Change directory accordingly.
 
 import os
-os.chdir('/home/howsetya/workspace/Bioimage/')
+os.chdir('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/180801')
 
 ###############################################################################
 ### Deal with images ##########################################################
@@ -33,7 +33,7 @@ os.chdir('/home/howsetya/workspace/Bioimage/')
 ### Load image into filelist. Change directory accordingly.
 
 import glob
-fList = glob.glob('Dennis_GrowthRate/180801/*.tif')
+fList = glob.glob('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/180801/*.tif')
 fList.sort() # sort the list, not really necessary
 
 ### Get only filename.
@@ -56,7 +56,7 @@ imgNames = splitname(fList)
 
 ### Load the image.
 
-from skimage.io import imread
+from skimage.io import imread,imshow
 
 def loadimage (imagenames,filelist):
     '''Loads images. Takes the image names and file list as input, outputs a 
@@ -106,7 +106,7 @@ def gridslice (specificimage):
     return(flo)
     
 #test = gridslice('180801_FL-1')
-#imshow(test['D-botleft'])
+#imshow(test['A-topleft'])
 
 ### Use the function gridslice to loop over the dictionary.
 ### Yields in a dictionary containing the filenames, position of cut images, and the cut images.
@@ -119,9 +119,10 @@ for n in range(len(fileImage)):
 ### Deal with csv #############################################################
 ###############################################################################
 
-### Import csv data
+### Import csv data / Import txt data
 
 import pandas as pd
+####-- with .csv table----###
 floLoc_df = pd.read_csv ('Dennis_GrowthRate/180801/180801.csv', sep=';',header = None)
 floLoc_df.loc[0] # by row
 floLoc_df[0] # by column
@@ -132,10 +133,47 @@ placeHolder = splitname(list(floLoc_df[0]))
 floLoc_df[0] = placeHolder
 floLoc = floLoc_df.set_index(0).T.to_dict('list')
 
+#### --with .txt files---(recommended by Christian)###
+
+#flo_180801_1 = pd.read_csv('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/180801/180801_FL-1.txt', sep="  ",header=None)
+#flo1 = flodf.loc[0,0]
+
+#Load .txt into filelist
+#https://stackoverflow.com/questions/26415906/read-multiple-txt-files-into-pandas-dataframe-with-filename-as-column-header
+#Step 1: get a list of all csv files in target directory
+
+filelist=[]
+filesList=[]
+
+# Step 2: Build up list of files:
+    for files in glob.glob('.txt'):
+        fileName, fileExtension = os.path.splitext(files)
+        filelist.append(fileName) #filename without extension
+        filesList.append(files)#filename with extensionreturn(filelist)   
+    return(filelist)
+
+# 
+
+
+ftxt = glob.glob('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/180801/*.txt')
+ftxt.sort()
+
+
+# Get only filenames
+
+
+txtNames = splitname(ftxt)
+
+
 ###############################################################################
-### Connect images and csv ####################################################
+### Connect images and txt ####################################################
 ###############################################################################
 
 ### Loop over fName and change the position key of every image with value from 
 ### floLoc (how?)
+
+for n in range(len(fName)):
+    
+    
+
 
