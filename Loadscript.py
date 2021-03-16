@@ -3,7 +3,7 @@
 """
 Created on Fri Mar  5 14:17:11 2021
 
-@author: howsetya
+@author: howard & dennis
 
 The plan here is to run this whole script once for one directory. This is 
 obviously not the best approach. But more refinement can be done as time 
@@ -109,7 +109,7 @@ def gridslice (specificimage):
 #imshow(test['A-topleft'])
 
 ### Use the function gridslice to loop over the dictionary.
-### Yields in a dictionary containing the filenames, position of cut images, and the cut images.
+### Yields in a dictionary containing the filenames, position of cut images (id), and the cut images.
 
 fName={}
 for n in range(len(fileImage)):
@@ -169,7 +169,7 @@ txtNames = splitname(ftxt)
 ### Connect images and txt ####################################################
 ###############################################################################
 
-### Loop over fName and change the position key of every image with value from 
+### Loop over fName and rename the position key (id) of every image with values from 
 ### floLoc (how?)
 
 for n in range(len(fName)):
