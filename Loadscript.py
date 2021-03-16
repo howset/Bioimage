@@ -145,10 +145,14 @@ floLoc = floLoc_df.set_index(0).T.to_dict('list')
 ftxt = glob.glob('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/180801/*.txt')
 ftxt.sort()
 
+# Get only filenames with splitname function
+
+txtNames = splitname(ftxt)
+
 ## load the txt-files
 
 def loadtxt(txtnames,filelist):
-    '''Loads txt. Takes the image names and file list as input, outputs a 
+    '''Loads txt. Takes the txt names and file list as input, outputs a 
     list of txt.'''
     txtlist=[]
     for files in glob.glob('*.txt'):
@@ -159,34 +163,25 @@ txtList=loadtxt(txtNames,ftxt)
    
 
 # Step 3: Build up DataFrame:
-df = pd.DataFrame()
-for n in txtList:
-    frame=pd.read_csv('*.txt')
-    df = df.append(frame)
-print(df)
 
-#------------------------
 
-def frametxt(textframe):
+#-------version 2------------
+
+def frametxt(ftxt):
     df = pd.DataFrame()
     #txtlist2=[]
-    for files in ftxt:
-        frame=pd.read_csv('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/180801/*.txt',sep="  ",header=None)
-        df=pd.concat(pd.read_csv(files,names=[item[:-4]]))
+    for file in ftxt:
+        frame=pd.read_csv(file,sep="\s+",header=None) 
+        print(frame)
+        df.append(frame)
     return(df)
 
-txtList2=frametxt(txtList)
+txtList2=frametxt(ftxt)
+
 #------------------------
     
 
 
-
-
-
-# Get only filenames
-
-
-txtNames = splitname(ftxt)
 
 
 ###############################################################################
@@ -194,9 +189,9 @@ txtNames = splitname(ftxt)
 ###############################################################################
 
 ### Loop over fName and rename the position key (id) of every image with values from 
-### floLoc (how?)
+### (how?)
 
-for n in range(len(fName)):
+
     
     
     
