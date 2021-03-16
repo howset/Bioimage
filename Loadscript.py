@@ -83,7 +83,7 @@ def makedict (imagelist,imagenames):
         imgdict.update({imagenames[n]:imagelist[n]})
     return(imgdict)
 
-fileImage = makedict(imgList,imgNames)
+#fileImage = makedict(imgList,imgNames)
 #imshow(fileImage['180801_FL-1']) # just testing
 
 ### Grid slicing (make 6 boxes out of an image).
@@ -122,6 +122,7 @@ for n in range(len(fileImage)):
 ### Import csv data / Import txt data
 
 import pandas as pd
+
 ####-- with .csv table----###
 floLoc_df = pd.read_csv ('Dennis_GrowthRate/180801/180801.csv', sep=';',header = None)
 floLoc_df.loc[0] # by row
@@ -138,25 +139,47 @@ floLoc = floLoc_df.set_index(0).T.to_dict('list')
 #flo_180801_1 = pd.read_csv('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/180801/180801_FL-1.txt', sep="  ",header=None)
 #flo1 = flodf.loc[0,0]
 
-#Load .txt into filelist
-#https://stackoverflow.com/questions/26415906/read-multiple-txt-files-into-pandas-dataframe-with-filename-as-column-header
-#Step 1: get a list of all csv files in target directory
 
-filelist=[]
-filesList=[]
-
-# Step 2: Build up list of files:
-    for files in glob.glob('.txt'):
-        fileName, fileExtension = os.path.splitext(files)
-        filelist.append(fileName) #filename without extension
-        filesList.append(files)#filename with extensionreturn(filelist)   
-    return(filelist)
-
-# 
-
+#--Load .txt into filelist
 
 ftxt = glob.glob('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/180801/*.txt')
 ftxt.sort()
+
+## load the txt-files
+
+def loadtxt(txtnames,filelist):
+    '''Loads txt. Takes the image names and file list as input, outputs a 
+    list of txt.'''
+    txtlist=[]
+    for files in glob.glob('*.txt'):
+        txtlist.append(files)
+    return(txtlist)
+
+txtList=loadtxt(txtNames,ftxt)
+   
+
+# Step 3: Build up DataFrame:
+df = pd.DataFrame()
+for n in txtList:
+    frame=pd.read_csv('*.txt')
+    df = df.append(frame)
+print(df)
+
+#------------------------
+
+def frametxt(df):
+    df = pd.DataFrame()
+    for files in glob.glob('*.txt'):
+        frame=pd.read_csv(files,sep="  ",header=None)
+        #df=pd.concat(pd.read_csv(files,names=[item[:-4]]))
+    return (df)
+
+frametxt(txtList)
+#------------------------
+    
+
+
+
 
 
 # Get only filenames
@@ -173,6 +196,7 @@ txtNames = splitname(ftxt)
 ### floLoc (how?)
 
 for n in range(len(fName)):
+    
     
     
 
