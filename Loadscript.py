@@ -17,7 +17,8 @@ can be done in another script.
 
 Still to do:
     1. grid slicing - done!
-    2. how to connect sliced flower images to the csv data
+    2. how to connect sliced flower images to the txt data - done
+    3. Connect the flower images with their corresponding number to the pixel size
 
 """
 
@@ -83,7 +84,8 @@ def makedict (imagelist,imagenames):
         imgdict.update({imagenames[n]:imagelist[n]})
     return(imgdict)
 
-#fileImage = makedict(imgList,imgNames)
+fileImage = makedict(imgList,imgNames)
+
 #imshow(fileImage['180801_FL-1']) # just testing
 
 ### Grid slicing (make 6 boxes out of an image).
@@ -168,21 +170,52 @@ txtList=loadtxt(txtNames,ftxt)
 #-------version 2------------
 
 def frametxt(ftxt):
-    df = pd.DataFrame()
-    #txtlist2=[]
+    df = []
     for file in ftxt:
         frame=pd.read_csv(file,sep="\s+",header=None) 
-        print(frame)
         df.append(frame)
     return(df)
 
-txtList2=frametxt(ftxt)
+txt_df=frametxt(ftxt)
 
 #------------------------
     
+### Make a dictionary to connect txt with the respective filename.
 
+def maketxtdict (txtlist,txtnames):
+    '''Make a dictionary with the images as values and the names as keys.'''
+    txtdict = {}
+    for n in range(len(txtlist)):
+        txtdict.update({txtnames[n] : txtlist[n]})
+    return(txtdict)
 
+txtdict = makedict(txt_df,txtNames)
 
+### Grid slicing (make 6 boxes out of an txt file).
+# fileImage.keys() #get all keys
+# list(fileImage.keys())[0] #get the first key
+# list(fileImage.values())[0] #get the first value
+
+def gridslicetxt (specifictxt):
+    '''slice one txt into six grids'''
+    grid = {}
+    #x = list(file_image.keys())[n]
+    #flowers = file_image[x]
+    flower_number = txtdict[specifictxt]
+    grid['A-topleft'] = flower_number.loc[0,0] 
+    grid['B-topmid'] = flower_number.loc[0,1] 
+    grid['C-topright'] = flower_number.loc[0,2]
+    grid['D-botleft'] = flower_number.loc[1,0]
+    grid['E-botmid'] = flower_number.loc[1,1]
+    grid['F-botright'] = flower_number.loc[1,2]
+    return(grid)
+
+#test=gridslicetxt('180801_FL-1')
+#test['F-botright']
+
+gridtxt={}
+for n in range(len(txtdict)):
+    gridtxt['{0}'.format(list(txtdict.keys())[n])] = gridslicetxt(list(txtdict.keys())[n])
 
 ###############################################################################
 ### Connect images and txt ####################################################
@@ -190,7 +223,6 @@ txtList2=frametxt(ftxt)
 
 ### Loop over fName and rename the position key (id) of every image with values from 
 ### (how?)
-
 
     
     
