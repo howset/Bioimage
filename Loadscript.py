@@ -167,14 +167,15 @@ print(df)
 
 #------------------------
 
-def frametxt(df):
+def frametxt(textframe):
     df = pd.DataFrame()
-    for files in glob.glob('*.txt'):
-        frame=pd.read_csv(files,sep="  ",header=None)
-        #df=pd.concat(pd.read_csv(files,names=[item[:-4]]))
-    return (df)
+    #txtlist2=[]
+    for files in ftxt:
+        frame=pd.read_csv('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/180801/*.txt',sep="  ",header=None)
+        df=pd.concat(pd.read_csv(files,names=[item[:-4]]))
+    return(df)
 
-frametxt(txtList)
+txtList2=frametxt(txtList)
 #------------------------
     
 
