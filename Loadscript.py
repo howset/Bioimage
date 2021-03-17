@@ -224,6 +224,55 @@ for n in range(len(txtdict)):
 ### Loop over fName and rename the position key (id) of every image with values from 
 ### (how?)
 
+
+
+# =============================================================================
+# Version: Christian
+# Using Pandas data frame to collect parameters
+# =============================================================================
+
+import pandas as pd
+import numpy as np
+import glob
+import re
+
+## Process txt-files
+
+files_txt = glob.glob('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/180801/*.txt')
+df = pd.DataFrame(columns=('fileRoot','position','plantnumber'))
+
+dict={}
+    
+for file in files_txt:
+    print(file) # just to see which file is processed
+    fileRoot=re.sub(".*/","",file[:-4])
+
+    txtdf = pd.read_csv(file,sep="\s+",header=None) 
+    
+    df.loc[len(df)] = [fileRoot, 'topleft', txtdf.loc[0,0]]
+    df.loc[len(df)] = [fileRoot, 'topcenter', txtdf.loc[0,1]]
+    df.loc[len(df)] = [fileRoot, 'topright', txtdf.loc[0,2]]
+    df.loc[len(df)] = [fileRoot, 'bottomleft', txtdf.loc[1,0]]
+    df.loc[len(df)] = [fileRoot, 'bottomcenter', txtdf.loc[1,1]]
+    df.loc[len(df)] = [fileRoot, 'bottomright', txtdf.loc[1,2]]
+
+    dict[fileRoot+'topleft'] = txtdf.loc[0,0]
+    dict[fileRoot, 'topcenter'] = txtdf.loc[0,1]
+    dict[fileRoot, 'topright'] = txtdf.loc[0,2]
+    dict[fileRoot, 'bottomleft'] = txtdf.loc[1,0]
+    dict[fileRoot, 'bottomcenter'] = txtdf.loc[1,1]
+    dict[fileRoot, 'bottomright'] = txtdf.loc[1,2]
+
+## Process Images
+
+files_img = glob.glob ('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/180801/*.tif')
+                      
+parameters = pd.DataFrame(columns=('fileRoot','posotion','plantNumber','area'))
+for file in files_img:
+    fileRoot=re.sub(".*/","",file[:-4])
+    
+     ### Read image, segmenatation,
+
     
     
     
