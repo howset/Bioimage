@@ -26,7 +26,7 @@ Still to do:
 
 import os
 os.chdir('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/180801')
-os.chdir('/home/howsetya/workspace/Bioimage/') ## comment this out 
+os.chdir('/home/howset/workspace/Bioimage/') ## comment this out 
 
 ###############################################################################
 ### Deal with images ##########################################################
@@ -147,11 +147,13 @@ floLoc = floLoc_df.set_index(0).T.to_dict('list')
 #--Load .txt into filelist
 
 ftxt = glob.glob('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/180801/*.txt')
+ftxt = glob.glob('Dennis_GrowthRate/180801/*.txt')
 ftxt.sort()
 
 # Get only filenames with splitname function
 
 txtNames = splitname(ftxt)
+# ftxt = splitname(ftxt) # just to avoid having too many variables
 
 ## load the txt-files
 
