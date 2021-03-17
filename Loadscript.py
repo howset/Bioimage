@@ -26,6 +26,7 @@ Still to do:
 
 import os
 os.chdir('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/180801')
+os.chdir('/home/howsetya/workspace/Bioimage/') ## comment this out 
 
 ###############################################################################
 ### Deal with images ##########################################################
@@ -35,6 +36,7 @@ os.chdir('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Denn
 
 import glob
 fList = glob.glob('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/180801/*.tif')
+fList = glob.glob('Dennis_GrowthRate/180801/*.tif') ## comment this out
 fList.sort() # sort the list, not really necessary
 
 ### Get only filename.
