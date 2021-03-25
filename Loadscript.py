@@ -21,7 +21,7 @@ Still to do:
     3. Connect the flower images with their corresponding number to the pixel size
 
 """
-
+# test git
 ### Set work directory. Change directory accordingly.
 
 import os
