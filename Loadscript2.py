@@ -11,6 +11,7 @@ import numpy as np
 import glob
 import re
 from skimage.io import imread, imshow
+from skimage.filters import threshold_otsu as to
 
 ## Process txt-files
 
@@ -45,24 +46,27 @@ for file in files_txt:
 
 ## Process Images
 
-
-
-files_img = glob.glob ('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/180801/*.tif')
+files_img_180801 = glob.glob ('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/180801/*.tif')
 files_img.sort()                      
-df_img = pd.DataFrame(columns=('fileRoot','position','Individual_Plant'))
+df_img = pd.DataFrame(columns=('fileRoot','position','area'))
 for file in files_img:
     print(file)
     fileRoot=re.sub(".*/","",file[:-4])
     
     imgdf = imread(file,key=1) 
     
-    df_img.loc[len(df_img)] = [fileRoot, 'topleft', imgdf[0:240,0:213]]
-    df_img.loc[len(df_img)] = [fileRoot, 'topcenter', imgdf[0:240,213:426]]
-    df_img.loc[len(df_img)] = [fileRoot, 'topright', imgdf[0:240,426:640]]
-    df_img.loc[len(df_img)] = [fileRoot, 'bottomleft', imgdf[240:480,0:213]]
-    df_img.loc[len(df_img)] = [fileRoot, 'bottomcenter', imgdf[240:480,213:426]]
-    df_img.loc[len(df_img)] = [fileRoot, 'bottomright', imgdf[240:480,426:640]]
-    
-#df_img.sort_values(by=['fileRoot'])    
+    df_img.loc[len(df_img)] = [fileRoot, 'topleft', np.sum(imgdf[0:240,0:213] > to(imgdf[0:240,0:213]))]
+    df_img.loc[len(df_img)] = [fileRoot, 'topcenter', np.sum(imgdf[0:240,213:426] > to(imgdf[0:240,213:426]))]
+    df_img.loc[len(df_img)] = [fileRoot, 'topright', np.sum(imgdf[0:240,426:640] > to(imgdf[0:240,426:640]))]
+    df_img.loc[len(df_img)] = [fileRoot, 'bottomleft', np.sum(imgdf[240:480,0:213] > to(imgdf[240:480,0:213]))]
+    df_img.loc[len(df_img)] = [fileRoot, 'bottomcenter',np.sum(imgdf[240:480,213:426] > to(imgdf[240:480,213:426]))]
+    df_img.loc[len(df_img)] = [fileRoot, 'bottomright', np.sum(imgdf[240:480,426:640] > to(imgdf[240:480,426:640]))]
 
-     ### Read image, segmenatation,
+
+## Merge df_txt and df_img
+df_txt['Area']=df_img['area'] 
+df_merged=df_txt
+
+
+
+
