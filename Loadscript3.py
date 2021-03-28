@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 import glob
 import re
-from skimage.io import imread, imshow
+from skimage.io import imread
 from skimage.filters import threshold_otsu as to
 
 ##############################
@@ -75,9 +75,9 @@ ars = load_imgs(img)
 
 ## 2. Merge ids and ars
 total_df = ids
-total_df = total_df[total_df.fileRoot!='180806_FL-4']
-total_df = total_df.reset_index()
+total_df = total_df[total_df.fileRoot!='180806_FL-4'] # remove these entry rows
+total_df = total_df.reset_index() # reset indexes
 del total_df['index']
-total_df['area'] = ars['area']
+total_df['area'] = ars['area'] # merge
 del total_df['position'] # total_df.drop('position',inplace=True, axis=1) 
 
