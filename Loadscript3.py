@@ -69,6 +69,7 @@ txt = ('/home/howsetya/workspace/Bioimage/Dennis_GrowthRate/*/*.txt') # H's path
 img = ('/home/howsetya/workspace/Bioimage/Dennis_GrowthRate/*/*.tif') # H's path
 txt = ('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/*/*.txt') # D's path
 img = ('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/*/*.tif') # D's path
+
 ids = load_ids(txt)
 ars = load_imgs(img)
 
@@ -77,8 +78,6 @@ total_df = ids
 total_df = total_df[total_df.fileRoot!='180806_FL-4']
 total_df = total_df.reset_index()
 del total_df['index']
-# total_df.drop('position',inplace=True, axis=1) # del total_df['position']
-# ars.drop('position',inplace=True, axis=1) # del total_df['position']
 total_df['area'] = ars['area']
 del total_df['position'] # total_df.drop('position',inplace=True, axis=1) 
 
