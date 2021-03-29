@@ -135,4 +135,4 @@ for i in  range(1,61):
 
 ## 1. Is threshold otsu ok? why threshold otsu? another method?
 ## 2. What is the biological question (in detail)? How to answer?
-## 3. Some fit fails. Should check the slicing in detail. 
+## 3. Some fit fails. Should check the slicing in detail/the area calculation. 
