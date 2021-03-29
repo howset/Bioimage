@@ -124,7 +124,7 @@ del(names,name,x)
 ## Plotting ##################
 ##############################
 
-## 1. Plot plants number 1-10. Change as necessary.
+## 1. Plot plants number 1-60. Change as necessary.
 for i in  range(1,61):
     plot_plant(i)
 
