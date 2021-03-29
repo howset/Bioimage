@@ -65,8 +65,8 @@ def load_imgs(tifs):
 
 ## 1. Run the functions for all folders
 
-txt = ('/home/howsetya/workspace/Bioimage/Dennis_GrowthRate/*/*.txt') # H's path
-img = ('/home/howsetya/workspace/Bioimage/Dennis_GrowthRate/*/*.tif') # H's path
+txt = ('/home/howset/workspace/Bioimage/Dennis_GrowthRate/*/*.txt') # H's path
+img = ('/home/howset/workspace/Bioimage/Dennis_GrowthRate/*/*.tif') # H's path
 txt = ('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/*/*.txt') # D's path
 img = ('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/*/*.tif') # D's path
 
@@ -85,4 +85,8 @@ del total_df['position'] # total_df.drop('position',inplace=True, axis=1)
 ##############################
 ## Plotting ##################
 ##############################
+
+## just checking
+# a = total_df['plantnumber'].value_counts() 
+# a.plot.bar()
 
