@@ -83,7 +83,7 @@ def plot_plant(plantnum):
     lab = str('Plant #{0}').format(plantnum)
     plt.plot(x, y, 'b.', label=lab)
     y_x = expon(x,*popt)
-    plt.plot(x, y_x, 'r-', label='fit')
+    plt.plot(x, y_x, 'r-', label='fit, k = %.2f a = %.2f' %(popt[1],popt[0]))
     plt.xlabel('Date')
     plt.ylabel('Area')
     plt.title(lab)
@@ -124,8 +124,8 @@ del(names,name,x)
 ## Plotting ##################
 ##############################
 
-## 1. Plot plants number 1-10
-for i in  range(1,10):
+## 1. Plot plants number 1-10. Change as necessary.
+for i in  range(1,61):
     plot_plant(i)
 
     
