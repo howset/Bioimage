@@ -128,4 +128,11 @@ del(names,name,x)
 for i in  range(1,61):
     plot_plant(i)
 
-    
+
+##############################
+## Questions #################
+##############################
+
+## 1. Is threshold otsu ok? why threshold otsu? another method?
+## 2. What is the biological question (in detail)? How to answer?
+## 3. Some fit fails. Should check the slicing in detail. 
