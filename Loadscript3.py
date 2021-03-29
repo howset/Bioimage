@@ -11,6 +11,8 @@ import glob
 import re
 from skimage.io import imread
 from skimage.filters import threshold_otsu as to
+import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit # https://towardsdatascience.com/basic-curve-fitting-of-scientific-data-with-python-9592244a2509
 
 ##############################
 ## Functions #################
@@ -64,7 +66,6 @@ def load_imgs(tifs):
 ##############################
 
 ## 1. Run the functions for all folders
-
 txt = ('/home/howsetya/workspace/Bioimage/Dennis_GrowthRate/*/*.txt') # H's path
 img = ('/home/howsetya/workspace/Bioimage/Dennis_GrowthRate/*/*.tif') # H's path
 txt = ('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/*/*.txt') # D's path
@@ -73,14 +74,23 @@ img = ('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis
 ids = load_ids(txt)
 ars = load_imgs(img)
 
-## 2. Merge ids and ars
-
+## 2. Merge ids and ars in one big data frame (?)
 total_df = ids
 total_df = total_df[total_df.fileRoot!='180806_FL-4'] # remove these entry rows
 total_df = total_df.reset_index() # reset indexes
 del total_df['index']
 total_df['area'] = ars['area'] # merge
 del total_df['position'] # total_df.drop('position',inplace=True, axis=1) 
+
+## 3. cleanup data frame (fileRoot to just dates and make them int)
+x = 0
+for names in total_df['fileRoot']:
+    name = re.sub(".*/", "", names[:6])
+    total_df.loc[x,'fileRoot'] = re.sub(".*/", "", name)
+    x = x+1
+del(names,name,x)
+# total_df['fileRoot'] = total_df['fileRoot'].astype(int)
+total_df['fileRoot']=pd.to_numeric(total_df['fileRoot'])
 
 ##############################
 ## Plotting ##################
@@ -90,10 +100,27 @@ del total_df['position'] # total_df.drop('position',inplace=True, axis=1)
 # a = total_df['plantnumber'].value_counts() 
 # a.plot.bar()
 
-## cleanup fileRoot to 
-# for names in total_df['fileRoot']:
-#     # print(names)
-#     name = re.sub(".*/", "", names[:6]) # get filenames
-#     print(name)
-#     total_df['fileRoot'] = name
+## get df for one plant
+## e.g plant 2:
+plant2_df = total_df[total_df.plantnumber == 2]
+def expon (x,a,b):
+    return(a*np.exp(b*x))
+x_data = plant2_df['fileRoot']
+y_data = plant2_df['area']
+plt.plot(x_data, y_data, 'b.', label='Plant #2')
+# plt.scatter(x_data,y_data)
+popt, pcov = curve_fit(expon, x_data, y_data,[1,1])
+plt.plot(x_data, expon(x_data, *popt), 'r-', label='fit: a=%5.3f, b=%5.3f' % tuple(popt))
+plt.xlabel('Date')
+plt.ylabel('Area')
+plt.title('Plant #2')
+plt.legend()
+plt.show()
+
+
+# plant2_df = total_df[total_df.plantnumber == 2]
+# plant2_df.plot(x ='fileRoot', y='area', kind = 'scatter')
+# plt.show()
+# plant4_df = total_df.loc[total_df['plantnumber'] == 4] 
+# total_df.iloc[0:2,0:3]
 
