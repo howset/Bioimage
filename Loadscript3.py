@@ -12,7 +12,7 @@ import re
 from skimage.io import imread
 from skimage.filters import threshold_otsu as to
 import matplotlib.pyplot as plt
-from scipy.optimize import curve_fit # https://towardsdatascience.com/basic-curve-fitting-of-scientific-data-with-python-9592244a2509
+from scipy.optimize import curve_fit
 
 ##############################
 ## Functions #################
@@ -60,6 +60,36 @@ def load_imgs(tifs):
         df_img.loc[len(df_img)] = [fileRoot, 'bottomright', np.sum(imgdf[240:480, 426:640] > to(imgdf[240:480, 426:640]))]
     return(df_img)
 
+def plot_plant(plantnum):
+    '''
+    Plots the area against time(points) of a certain plant(number). Takes only 
+    an integer (plant number/id).
+    '''
+    plant_df = total_df[total_df.plantnumber == plantnum]
+    plant_df = plant_df.reset_index()
+    del plant_df['plantnumber']
+    del plant_df['index']
+    
+    def expon (x,a,k):
+        form = a*np.exp(k*x)
+        return(form)
+    
+    x = np.array(plant_df['fileRoot'])
+    x = x.astype(int)
+    x = x-180800
+    y = np.array(plant_df['area'])
+    y = y.astype(int)
+    popt, pcov = curve_fit(lambda x,a,k: a*np.exp(k*x),  x,  y, p0=(4, 0.1))
+    lab = str('Plant #{0}').format(plantnum)
+    plt.plot(x, y, 'b.', label=lab)
+    y_x = expon(x,*popt)
+    plt.plot(x, y_x, 'r-', label='fit')
+    plt.xlabel('Date')
+    plt.ylabel('Area')
+    plt.title(lab)
+    plt.legend()
+    plt.show()
+        
 
 ##############################
 ## Loading Procedure #########
@@ -86,41 +116,16 @@ del total_df['position'] # total_df.drop('position',inplace=True, axis=1)
 x = 0
 for names in total_df['fileRoot']:
     name = re.sub(".*/", "", names[:6])
-    total_df.loc[x,'fileRoot'] = re.sub(".*/", "", name)
+    total_df.loc[x,'fileRoot'] = int(re.sub(".*/", "", name))
     x = x+1
 del(names,name,x)
-# total_df['fileRoot'] = total_df['fileRoot'].astype(int)
-total_df['fileRoot']=pd.to_numeric(total_df['fileRoot'])
 
 ##############################
 ## Plotting ##################
 ##############################
 
-## just checking
-# a = total_df['plantnumber'].value_counts() 
-# a.plot.bar()
+## 1. Plot plants number 1-10
+for i in  range(1,10):
+    plot_plant(i)
 
-## get df for one plant
-## e.g plant 2:
-plant2_df = total_df[total_df.plantnumber == 2]
-def expon (x,a,b):
-    return(a*np.exp(b*x))
-x_data = plant2_df['fileRoot']
-y_data = plant2_df['area']
-plt.plot(x_data, y_data, 'b.', label='Plant #2')
-# plt.scatter(x_data,y_data)
-popt, pcov = curve_fit(expon, x_data, y_data,[1,1])
-plt.plot(x_data, expon(x_data, *popt), 'r-', label='fit: a=%5.3f, b=%5.3f' % tuple(popt))
-plt.xlabel('Date')
-plt.ylabel('Area')
-plt.title('Plant #2')
-plt.legend()
-plt.show()
-
-
-# plant2_df = total_df[total_df.plantnumber == 2]
-# plant2_df.plot(x ='fileRoot', y='area', kind = 'scatter')
-# plt.show()
-# plant4_df = total_df.loc[total_df['plantnumber'] == 4] 
-# total_df.iloc[0:2,0:3]
-
+    
