@@ -74,12 +74,10 @@ def plot_plant(plantnum):
         form = a*np.exp(k*x)
         return(form)
     
-    x = np.array(plant_df['fileRoot'])
-    x = x.astype(int)
+    x = int(np.array(plant_df['fileRoot']))
     x = x-180800
-    y = np.array(plant_df['area'])
-    y = y.astype(int)
-    popt, pcov = curve_fit(lambda x,a,k: a*np.exp(k*x),  x,  y, p0=(4, 0.1))
+    y = int(np.array(plant_df['area']))
+    popt, pcov = curve_fit(expon, x, y, p0=(4, 0.1))
     lab = str('Plant #{0}').format(plantnum)
     plt.plot(x, y, 'b.', label=lab)
     y_x = expon(x,*popt)
