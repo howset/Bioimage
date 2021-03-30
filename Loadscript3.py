@@ -74,10 +74,14 @@ def plot_plant(plantnum):
         form = a*np.exp(k*x)
         return(form)
     
-    x = int(np.array(plant_df['fileRoot']))
+    x = np.array(plant_df['fileRoot'])
+    x=x.astype(int)
     x = x-180800
-    y = int(np.array(plant_df['area']))
+    y = np.array(plant_df['area'])
+    y=y.astype(int)
     popt, pcov = curve_fit(expon, x, y, p0=(4, 0.1))
+    global k
+    k=popt[1]
     lab = str('Plant #{0}').format(plantnum)
     plt.plot(x, y, 'b.', label=lab)
     y_x = expon(x,*popt)
@@ -124,8 +128,24 @@ del(names,name,x)
 ##############################
 
 ## 1. Plot plants number 1-60. Change as necessary.
+df_sum=pd.DataFrame(columns=('plantnumber','growth constant(k)'))
 for i in  range(1,61):
     plot_plant(i)
+    df_sum.loc[len(df_sum)]=(i,k)
+    
+### Ideas for geeting delta area
+# total_df[total_df.plantnumber == 2]["area"][1] -> get the first area of plant 2
+# total_df[total_df.plantnumber == 2]["area"][389] -> get the last area of plant 2
+
+#--> With this approach but the original index back. 
+#For every plant we have 7 datapoints
+#Calculate every 7th area - area 7 steps back  
+
+# =============================================================================
+# Summary table
+# =============================================================================
+
+
 
 
 ##############################
