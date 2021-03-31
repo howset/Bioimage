@@ -19,7 +19,7 @@ Our current script, gcCalc.py aims to calculate the growth constant of plant(s).
 
 ### Notes:
 - Data is now included in this repo as well.
-- ~~ No header for csv file, but the order goes like this:~~  
+- ~~No header for csv file, but the order goes like this:~~  
 ~~filename, top left, top middle, top right, bottom left, bottom middle, bottom right.~~
 
 
