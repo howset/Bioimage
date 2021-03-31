@@ -68,6 +68,9 @@ def plot_plant(plantnum, plot=''):
     Takes only an integer (plant number/id). If plot is set to 'yes', 
     then show plotting.
     '''
+    global delta_area
+    global k
+    
     plant_df = total_df[total_df.plantnumber == plantnum]
     delta_area = plant_df.iloc[-1,2]-plant_df.iloc[0,2] # Get delta area
     plant_df = plant_df.reset_index()
@@ -95,8 +98,9 @@ def plot_plant(plantnum, plot=''):
         plt.title(lab)
         plt.legend()
         plt.show()
-        print(k,delta_area)
+        print('Plant number: {0}, k= {1}, delta area= {2}'.format(plantnum,k,delta_area))
     else:
+        print('Plant number: {0}, k= {1}, delta area= {2}'.format(plantnum,k,delta_area))
         return(k,delta_area)
         
 
@@ -117,10 +121,9 @@ ars = load_imgs(img) # Loads the images and calculate area
 total_df = ids
 total_df = total_df[total_df.fileRoot!='180806_FL-4'] # Remove these entry rows
 total_df = total_df.reset_index() # Reset indexes
-del total_df['index']
 total_df['area'] = ars['area'] # merge
 total_df['imageArray'] = ars['imageArray'] # merge
-del total_df['position'] # total_df.drop('position',inplace=True, axis=1) 
+del (total_df['index'],total_df['position'])
 
 ## 3. cleanup data frame (fileRoot to just dates and make them int)
 x = 0
@@ -136,10 +139,11 @@ del(names,name,x)
 
 ## Plot plants number 1-60 and create summary data frame. Change as necessary.
 df_sum=pd.DataFrame(columns=('plant_number','growth_constant(k)','delta_area (pixels)'))
-for i in  range(1,61):
-    k,d_area = plot_plant(i)
-    df_sum.loc[len(df_sum)]=(i,k,d_area)
-del(k,d_area,i)
+for n in range(1,61):
+    # plot_plant(n,plot='yes') # with plotting
+    plot_plant(n) # without plotting
+    df_sum.loc[len(df_sum)]=(n,k,delta_area)
+del(k,delta_area,n)
 
 
 ##############################
