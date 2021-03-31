@@ -69,10 +69,14 @@ def plot_plant(plantnum, plot=''):
     then show plotting.
     '''
     plant_df = total_df[total_df.plantnumber == plantnum]
+    
+    global delta_area
+    delta_area = plant_df.iloc[-1,2]-plant_df.iloc[0,2]
+    
     plant_df = plant_df.reset_index()
     del plant_df['plantnumber']
     del plant_df['index']
-    
+
     def expon (x,a,k):
         form = a*np.exp(k*x)
         return(form)
@@ -96,7 +100,7 @@ def plot_plant(plantnum, plot=''):
         plt.legend()
         plt.show()
     else:
-        return(k)
+        return(k,delta_area)
         
 
 ##############################
@@ -133,31 +137,11 @@ del(names,name,x)
 ## Plotting ##################
 ##############################
 
-## 1. Plot plants number 1-60. Change as necessary.
-df_sum=pd.DataFrame(columns=('plantnumber','growth constant(k)'))
+## Plot plants number 1-60 and create summary data frame. Change as necessary.
+df_sum=pd.DataFrame(columns=('plant_number','growth_constant(k)','delta_area (pixels)'))
 for i in  range(1,61):
     plot_plant(i)
-    df_sum.loc[len(df_sum)]=(i,k)
+    df_sum.loc[len(df_sum)]=(i,k,delta_area)
     
-### Ideas for geeting delta area
-# total_df[total_df.plantnumber == 2]["area"][1] -> get the first area of plant 2
-# total_df[total_df.plantnumber == 2]["area"][389] -> get the last area of plant 2
-
-#--> With this approach but the original index back. 
-#For every plant we have 7 datapoints
-#Calculate every 7th area - area 7 steps back  
-
-# =============================================================================
-# Summary table
-# =============================================================================
 
 
-
-
-##############################
-## Questions #################
-##############################
-
-## 1. Is threshold otsu ok? why threshold otsu? another method?
-## 2. What is the biological question (in detail)? How to answer?
-## 3. Some fit fails. Should check the slicing in detail/the area calculation. 
