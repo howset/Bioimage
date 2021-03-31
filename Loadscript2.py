@@ -16,6 +16,7 @@ from skimage.filters import threshold_otsu as to
 ## Process txt-files
 
 files_txt = glob.glob('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/*/*.txt')
+files_txt = glob.glob('/home/howsetya/workspace/Bioimage/Dennis_GrowthRate/*/*.txt')
 files_txt.sort()
 df_txt = pd.DataFrame(columns=('fileRoot','position','plantnumber'))
 
@@ -47,6 +48,7 @@ for file in files_txt:
 ## Process Images
 
 files_img = glob.glob ('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/*/*.tif')
+files_img = glob.glob('/home/howsetya/workspace/Bioimage/Dennis_GrowthRate/*/*.tif')
 files_img.sort()                      
 df_img = pd.DataFrame(columns=('fileRoot','position','area'))
 for file in files_img:

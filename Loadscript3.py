@@ -75,10 +75,10 @@ def plot_plant(plantnum):
         return(form)
     
     x = np.array(plant_df['fileRoot'])
-    x=x.astype(int)
+    x = x.astype(int)
     x = x-180800
     y = np.array(plant_df['area'])
-    y=y.astype(int)
+    y = y.astype(int)
     popt, pcov = curve_fit(expon, x, y, p0=(4, 0.1))
     global k
     k=popt[1]
