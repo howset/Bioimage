@@ -5,6 +5,8 @@ Created on Fri Mar  5 14:17:11 2021
 
 @author: howard & dennis
 
+!!! This script is now obsolete! See gcCalc.py !!!
+
 The plan here is to run this whole script once for one directory. This is 
 obviously not the best approach. But more refinement can be done as time 
 permits (and energy too).

@@ -3,6 +3,8 @@
 """
 Created on Sat Mar 27 16:04:54 2021
 
+!!! This script is now obsolete! See gcCalc.py !!!
+
 @author: dennis
 """
 
