@@ -20,7 +20,8 @@ from scipy.optimize import curve_fit
 
 def load_ids(txts):
     '''
-    Loads every txt files in one folder and returns a data frame of the ids.
+    This function loads every txt files in specified folder(s) and 
+    returns a data frame of the ids.
     '''
     files_txt = glob.glob(txts)
     files_txt.sort()
@@ -41,7 +42,8 @@ def load_ids(txts):
 
 def load_imgs(tifs):
     '''
-    Loads every image files in one folder, slices them, and returns a data frame of the area.
+    This function loads every image files in specified folder(s), slices them, 
+    and returns a data frame of the area.
     '''
     files_img = glob.glob(tifs)
     files_img.sort()
@@ -60,10 +62,11 @@ def load_imgs(tifs):
         df_img.loc[len(df_img)] = [fileRoot, 'bottomright', np.sum(imgdf[240:480, 426:640] > to(imgdf[240:480, 426:640])),imgdf[240:480, 426:640]]
     return(df_img)
 
-def plot_plant(plantnum):
+def plot_plant(plantnum, plot=''):
     '''
-    Plots the area against time(points) of a certain plant(number). Takes only 
-    an integer (plant number/id).
+    This function plots the area against time(points) of a certain plant(number). 
+    Takes only an integer (plant number/id). If plot is set to 'yes', 
+    then show plotting.
     '''
     plant_df = total_df[total_df.plantnumber == plantnum]
     plant_df = plant_df.reset_index()
@@ -82,15 +85,18 @@ def plot_plant(plantnum):
     popt, pcov = curve_fit(expon, x, y, p0=(4, 0.1))
     global k
     k=popt[1]
-    lab = str('Plant #{0}').format(plantnum)
-    plt.plot(x, y, 'b.', label=lab)
-    y_x = expon(x,*popt)
-    plt.plot(x, y_x, 'r-', label='fit, k = %.2f a = %.2f' %(popt[1],popt[0]))
-    plt.xlabel('Date')
-    plt.ylabel('Area')
-    plt.title(lab)
-    plt.legend()
-    plt.show()
+    if plot == 'yes':
+        lab = str('Plant #{0}').format(plantnum)
+        plt.plot(x, y, 'b.', label=lab)
+        y_x = expon(x,*popt)
+        plt.plot(x, y_x, 'r-', label='fit, k = %.2f a = %.2f' %(popt[1],popt[0]))
+        plt.xlabel('Date')
+        plt.ylabel('Area')
+        plt.title(lab)
+        plt.legend()
+        plt.show()
+    else:
+        return(k)
         
 
 ##############################
