@@ -134,7 +134,7 @@ for names in total_df['fileRoot']:
 del(names,name,x)
 
 ##############################
-## Plotting ##################
+## Plotting and Summary ######
 ##############################
 
 ## Plot plants number 1-60 and create summary data frame. Change as necessary.
