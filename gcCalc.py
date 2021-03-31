@@ -69,7 +69,7 @@ def plot_plant(plantnum, plot=''):
     then show plotting.
     '''
     plant_df = total_df[total_df.plantnumber == plantnum]
-    delta_area = plant_df.iloc[-1,2]-plant_df.iloc[0,2] # delta area
+    delta_area = plant_df.iloc[-1,2]-plant_df.iloc[0,2] # Get delta area
     plant_df = plant_df.reset_index()
     del plant_df['plantnumber']
     del plant_df['index']
@@ -84,7 +84,7 @@ def plot_plant(plantnum, plot=''):
     y = np.array(plant_df['area'])
     y = y.astype(int)
     popt, pcov = curve_fit(expon, x, y, p0=(4, 0.1))
-    k=popt[1] # growth constant
+    k=popt[1] # Get growth constant
     if plot == 'yes':
         lab = str('Plant #{0}').format(plantnum)
         plt.plot(x, y, 'b.', label=lab)
@@ -95,7 +95,7 @@ def plot_plant(plantnum, plot=''):
         plt.title(lab)
         plt.legend()
         plt.show()
-        return(k,delta_area)
+        print(k,delta_area)
     else:
         return(k,delta_area)
         
@@ -110,13 +110,13 @@ img = ('/home/howsetya/workspace/Bioimage/Dennis_GrowthRate/*/*.tif') # H's path
 txt = ('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/*/*.txt') # D's path
 img = ('/home/dennis/Schreibtisch/Uni_Potsdam/Bioimage/practical/bioimage/Dennis_GrowthRate/*/*.tif') # D's path
 
-ids = load_ids(txt)
-ars = load_imgs(img)
+ids = load_ids(txt) # Loads the IDs
+ars = load_imgs(img) # Loads the images and calculate area
 
 ## 2. Merge ids and ars in one big data frame (?)
 total_df = ids
-total_df = total_df[total_df.fileRoot!='180806_FL-4'] # remove these entry rows
-total_df = total_df.reset_index() # reset indexes
+total_df = total_df[total_df.fileRoot!='180806_FL-4'] # Remove these entry rows
+total_df = total_df.reset_index() # Reset indexes
 del total_df['index']
 total_df['area'] = ars['area'] # merge
 total_df['imageArray'] = ars['imageArray'] # merge
