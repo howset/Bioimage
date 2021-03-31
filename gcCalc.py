@@ -69,10 +69,7 @@ def plot_plant(plantnum, plot=''):
     then show plotting.
     '''
     plant_df = total_df[total_df.plantnumber == plantnum]
-    
-    global delta_area
-    delta_area = plant_df.iloc[-1,2]-plant_df.iloc[0,2]
-    
+    delta_area = plant_df.iloc[-1,2]-plant_df.iloc[0,2] # delta area
     plant_df = plant_df.reset_index()
     del plant_df['plantnumber']
     del plant_df['index']
@@ -87,8 +84,7 @@ def plot_plant(plantnum, plot=''):
     y = np.array(plant_df['area'])
     y = y.astype(int)
     popt, pcov = curve_fit(expon, x, y, p0=(4, 0.1))
-    global k
-    k=popt[1]
+    k=popt[1] # growth constant
     if plot == 'yes':
         lab = str('Plant #{0}').format(plantnum)
         plt.plot(x, y, 'b.', label=lab)
@@ -99,6 +95,7 @@ def plot_plant(plantnum, plot=''):
         plt.title(lab)
         plt.legend()
         plt.show()
+        return(k,delta_area)
     else:
         return(k,delta_area)
         
@@ -140,8 +137,15 @@ del(names,name,x)
 ## Plot plants number 1-60 and create summary data frame. Change as necessary.
 df_sum=pd.DataFrame(columns=('plant_number','growth_constant(k)','delta_area (pixels)'))
 for i in  range(1,61):
-    plot_plant(i)
-    df_sum.loc[len(df_sum)]=(i,k,delta_area)
-    
+    k,d_area = plot_plant(i)
+    df_sum.loc[len(df_sum)]=(i,k,d_area)
+del(k,d_area,i)
 
 
+##############################
+## Notes #####################
+##############################
+
+## To check imageArray
+from skimage.io import imshow
+imshow(total_df.iloc[4,3]) # just an example
