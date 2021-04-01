@@ -13,7 +13,7 @@ These identifiers are simply the plant number (1-60).
 - ~~The script Loadscript.py load the images in one folder and slice them into six. The script loads the csv file in that folder as well.~~  
 - ~~Another script could be written for binarizing the sliced images of individual plants and calculate the area.~~
 
-Our current script, *gcCalc.py* aims to calculate the growth constant of plant(s). It contains 3 functions. One to load plant IDs which is written in a text file inside each folder, another function to load the images, and the last function to make the plot of the plant growth and fit it to an exponential growth function. This fit would yield the growth constant k. 
+Our current script, **gcCalc.py** aims to calculate the growth constant of plant(s). It contains 3 functions. One to load plant IDs which is written in a text file inside each folder, another function to load the images, and the last function to make the plot of the plant growth and fit it to an exponential growth function. This fit would yield the growth constant k. 
 
 ---
 
