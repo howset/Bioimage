@@ -18,7 +18,7 @@ Our current script, **gcCalc.py** aims to calculate the growth constant of plant
 ---
 
 ### Notes:
-- Data is now included in this repo as well.
+- Data is now included in this repo. Cloning the repo means getting the data as well.
 - ~~No header for csv file, but the order goes like this:~~  
 ~~filename, top left, top middle, top right, bottom left, bottom middle, bottom right.~~
 
