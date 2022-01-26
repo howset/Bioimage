@@ -2,10 +2,8 @@
 
 ---
 
-## Bioimaging course WiSe 2020/2021
-
 ### Dennis & Howard's Project  
-We want to analyze a series of plant images acquired along a period of ~10 days. There are in total about  60 plants.  
+To analyze a series of plant images acquired along a period of ~10 days. There are in total about  60 plants.  
 Each image consist of 6 plants arranged in a 3 x 2 grid. However there is **no** identifier for the plant **in** the images, instead the identifier is on a separate text file.  
 These identifiers are simply the plant number (1-60).
 
@@ -18,7 +16,7 @@ Our current script, **gcCalc.py** aims to calculate the growth constant of plant
 ---
 
 ### Notes:
-- Data is now included in this repo. Cloning the repo means getting the data as well.
+- Data is now included in this repo.
 - ~~No header for csv file, but the order goes like this:~~  
 ~~filename, top left, top middle, top right, bottom left, bottom middle, bottom right.~~
 
