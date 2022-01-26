@@ -1,8 +1,6 @@
 # Bioimage
 
----
-
-### Dennis & Howard's Project  
+### Description  
 To analyze a series of plant images acquired along a period of ~10 days. There are in total about  60 plants.  
 Each image consist of 6 plants arranged in a 3 x 2 grid. However there is **no** identifier for the plant **in** the images, instead the identifier is on a separate text file.  
 These identifiers are simply the plant number (1-60).
@@ -20,4 +18,4 @@ Our current script, **gcCalc.py** aims to calculate the growth constant of plant
 - ~~No header for csv file, but the order goes like this:~~  
 ~~filename, top left, top middle, top right, bottom left, bottom middle, bottom right.~~
 
-
+By Dennis and Howard
